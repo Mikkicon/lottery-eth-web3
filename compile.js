@@ -1,28 +1,19 @@
 require('dotenv/config')
-const path = require("path");
-const fs = require("fs");
+const { getSource } = require('./util')
 const solc = require("solc");
 
-const inboxContractFileName = 'Inbox.sol';
-const inboxPath = path.resolve(__dirname, "contracts", inboxContractFileName);
-const source = fs.readFileSync(inboxPath, "utf8");
 
-const input = {
+const getInput = (sources) => ({
   language: 'Solidity',
-  sources: {
-    [inboxContractFileName]: {
-      content: source,
-    }
-  },
-  settings: {
-    outputSelection: {
-      '*': {
-        '*': ['*'],
-      }
-    }
-  }
+  sources,
+  settings: { outputSelection: { '*': { '*': ['*'], } } }
+})
+
+const compile = (filename, contractName) => {
+  const filesource = getSource(filename)
+  const sources = { [filename]: { content: filesource, } }
+  const input = getInput(sources)
+  return (JSON.parse(solc.compile(JSON.stringify(input))).contracts[filename][contractName])
 }
 
-module.exports = JSON.parse(solc.compile(JSON.stringify(input))).contracts[
-  inboxContractFileName
-].Inbox;
+module.exports = compile;
