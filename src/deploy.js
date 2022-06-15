@@ -12,7 +12,9 @@ const provider = new HDWalletProvider(
 const web3 = new Web3(provider);
 
 const deploy = async () => {
-  const { abi, evm } = compile("Lottery.sol", "Lottery");
+  const compiled = compile("Lottery.sol", "Lottery");
+  if (!compiled) return;
+  const { abi, evm } = compiled;
 
   const accounts = await web3.eth.getAccounts();
 
