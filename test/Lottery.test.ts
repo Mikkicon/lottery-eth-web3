@@ -2,7 +2,7 @@ import assert = require("assert");
 import ganache from "ganache";
 import Web3 from "web3";
 import { Contract, ContractSendMethod } from "web3-eth-contract";
-import compile = require("../compile");
+import compile = require("../src/compile");
 const web3 = new Web3(ganache.provider());
 const { abi, evm } = compile("Lottery.sol", "Lottery");
 
