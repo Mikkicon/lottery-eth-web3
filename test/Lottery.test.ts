@@ -8,7 +8,7 @@ const { abi, evm } = compile("Lottery.sol", "Lottery");
 
 type Address = string;
 
-const ETH_0005 = 500000000000000;
+const ETH_0005 = web3.utils.toWei("0.0005", "ether");
 let manager: Address;
 let accounts: Address[];
 let contract: Contract;
